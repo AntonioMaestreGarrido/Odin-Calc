@@ -1,0 +1,24 @@
+:root{
+    background-color: cornflowerblue;
+    box-sizing: border-box;
+}
+#calcBody{
+    display: flex;
+    flex-direction: column;
+    font-size:42px ;
+    border:solid 2px black;
+    width: 500px;
+
+}
+.row{
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+}
+.tecla{
+    border:solid 2px black;
+    width: 70px;
+    margin: 10px;
+    text-align: center;
+    
+}
