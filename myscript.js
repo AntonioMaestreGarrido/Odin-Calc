@@ -3,7 +3,7 @@
 let i = 0
 let borraDisplay = false;
 var pantalla = document.getElementById("display")
-
+var lastCaracter = "";
 var signo = "";
 var secondNumber = false;
 var DislplayClear = true;
@@ -28,46 +28,71 @@ function basicOp(n, n1, operator) {
 
 
 
+function prueba() {
 
+}
 
 function resuelveDisplay() {
     var cambiaaN2;
-    var n1=""
-    var n2=""
+    var n1 = ""
+    var n2 = ""
+    test = false
+    for (i = 0; i < pantalla.textContent.length; i++) {
+        var caracter = pantalla.textContent.charAt(i)
+        if (caracter * 2) {
+            console.log(caracter + "= true")
+        }
+        else { console.log(caracter + "= false") }
+    }
+
 
     for (i = 0; i < pantalla.textContent.length; i++) {
         var caracter = pantalla.textContent.charAt(i)
-        if (caracter*2 || caracter === ".") {
+        if (caracter * 2 || caracter === ".") {
             if (!cambiaaN2) {
                 n1 = n1.concat(caracter)
             }
             else { n2 = n2.concat(caracter) }
 
         }
-        else {signo=caracter;cambiaaN2=true}
+        else {
+            var c = lastCaracter * 2;
+            if (isNaN(c) && caracter === "-") {
+                if (cambiaaN2) {
+                    n2 = n2 + caracter
+                }
+                else { n1 = n1 + caracter }
+            }
+            else {
+                signo = caracter; cambiaaN2 = true
+            }
+        }
+        lastCaracter = caracter
     }
-    pantalla.textContent=basicOp(n1,n2,signo)
-    
+    pantalla.textContent = basicOp(n1, n2, signo)
+
 
 }
 
 
 
 function fillDisplay(e) {
-
+    if(lastCaracter==="="){pantalla.textContent=""}
     var caracter = e.target.textContent;
-    if (caracter==="±"){pantalla.textContent = pantalla.textContent + "-";return}
+    if (caracter === "±") { pantalla.textContent = pantalla.textContent + "-"; return }
 
-    if(e.target.textContent==="clear"){
-        pantalla.textContent="";
-        secondNumber=false
+    if (e.target.textContent === "clear") {
+        pantalla.textContent = "";
+        secondNumber = false
         return
     }
-    if (e.target.classList.contains("operador") && secondNumber) {  resuelveDisplay(e) }
+    if (e.target.classList.contains("operador") && secondNumber && caracter !== "-") { resuelveDisplay(e) }
     else if (e.target.classList.contains("operador") && !secondNumber) { secondNumber = true }
-    if (caracter === "=") {  resuelveDisplay(e) ;secondNumber=false;return}
-    
+    if (caracter === "=") { resuelveDisplay(e); secondNumber = false; return }
+
     pantalla.textContent = pantalla.textContent + caracter
+    lastCaracter = caracter;
+
 
 
 
