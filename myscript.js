@@ -20,6 +20,7 @@ function basicOp(n, n1, operator) {
     var r;
     if (operator === "+") { r = parseFloat(n) + parseFloat(n1) }
     else if (operator === "-") { r = n - n1 }
+    else if (operator === "%") { r = n*n1/ 100 }
     else if (operator === "*") { r = n * n1 }
     else if (operator === "/") { r = Math.round((n / n1) * 10000) / 10000; }
     r = Math.round((r) * 10000) / 10000;
@@ -37,18 +38,12 @@ function resuelveDisplay() {
     var n1 = ""
     var n2 = ""
     test = false
+   
+
+    lastCaracter=""
     for (i = 0; i < pantalla.textContent.length; i++) {
         var caracter = pantalla.textContent.charAt(i)
-        if (caracter * 2) {
-            console.log(caracter + "= true")
-        }
-        else { console.log(caracter + "= false") }
-    }
-
-
-    for (i = 0; i < pantalla.textContent.length; i++) {
-        var caracter = pantalla.textContent.charAt(i)
-        if (caracter * 2 || caracter === ".") {
+        if (!isNaN(caracter) || caracter === ".") {
             if (!cambiaaN2) {
                 n1 = n1.concat(caracter)
             }
@@ -57,7 +52,7 @@ function resuelveDisplay() {
         }
         else {
             var c = lastCaracter * 2;
-            if (isNaN(c) && caracter === "-") {
+            if (isNaN(c) || lastCaracter ==="" && caracter === "-") {
                 if (cambiaaN2) {
                     n2 = n2 + caracter
                 }
@@ -79,9 +74,9 @@ function resuelveDisplay() {
 function fillDisplay(e) {
     if(lastCaracter==="="){pantalla.textContent=""}
     var caracter = e.target.textContent;
-    if (caracter === "±") { pantalla.textContent = pantalla.textContent + "-"; return }
-
-    if (e.target.textContent === "clear") {
+    if (caracter === "-"&&  pantalla.textContent.length===0) { pantalla.textContent =  "-"; return }
+    if(caracter==="C"){pantalla.textContent=pantalla.textContent.slice(0, -1);return}
+    if (e.target.textContent === "X") {
         pantalla.textContent = "";
         secondNumber = false
         return
